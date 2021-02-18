@@ -46,11 +46,15 @@ def make_project(path):
     for go_dir in GO_DIRS:
         pathlib.Path(os.path.join(path, go_dir)).mkdir(parents=True, exist_ok=True)
 
-    with open(os.path.join(path, 'README.md'), 'a') as f:
-        f.write(README)
+    readme_path = os.path.join(path, 'README.md')
+    if not os.path.exists(readme_path):
+        with open(readme_path, 'a') as f:
+            f.write(README)
 
-    with open(os.path.join(path, 'DOCKERFILE'), 'a') as f:
-        f.write(DOCKERFILE)
+    dockerfile_path = os.path.join(path, 'DOCKERFILE')
+    if not os.path.exists(dockerfile_path):
+        with open(dockerfile_path, 'a') as f:
+            f.write(DOCKERFILE)
 
 
 if __name__ == '__main__':
