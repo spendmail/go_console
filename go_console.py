@@ -24,6 +24,8 @@ RUN go install -v ./...
 
 CMD ["app"]'''
 
+GO_FILES = {'README.md': README, 'DOCKERFILE': README, '.env': ''}
+
 
 @click.group()
 @click.version_option("0.0.1")
@@ -46,20 +48,11 @@ def make_project(path):
     for go_dir in GO_DIRS:
         pathlib.Path(os.path.join(path, go_dir)).mkdir(parents=True, exist_ok=True)
 
-    readme_path = os.path.join(path, 'README.md')
-    if not os.path.exists(readme_path):
-        with open(readme_path, 'a') as f:
-            f.write(README)
-
-    dockerfile_path = os.path.join(path, 'DOCKERFILE')
-    if not os.path.exists(dockerfile_path):
-        with open(dockerfile_path, 'a') as f:
-            f.write(DOCKERFILE)
-
-    env_path = os.path.join(path, '.env')
-    if not os.path.exists(env_path):
-        with open(env_path, 'a') as f:
-            f.write('')
+    for go_file in GO_FILES:
+        readme_path = os.path.join(path, go_file)
+        if not os.path.exists(readme_path):
+            with open(readme_path, 'a') as f:
+                f.write(GO_FILES[go_file])
 
 
 if __name__ == '__main__':
