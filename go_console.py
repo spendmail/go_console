@@ -7,6 +7,13 @@ import click
 GO_DIRS = ['api', 'cmd', 'pkg', 'internal/domain/errors', 'internal/domain/interfaces', 'internal/domain/models',
            'internal/domain/services', 'internal/adapters/grpc/api', 'internal/adapters/maindb', 'sql']
 
+README = '''# Project Name
+
+# Build and run the Docker image
+    $ docker build -t my-golang-app .
+    $ docker run -it --rm --name my-running-app my-golang-app
+'''
+
 DOCKERFILE = '''FROM golang:1.14
 
 WORKDIR /go/src/app
@@ -40,7 +47,7 @@ def make_project(path):
         pathlib.Path(os.path.join(path, go_dir)).mkdir(parents=True, exist_ok=True)
 
     with open(os.path.join(path, 'README.md'), 'a') as f:
-        f.write('# Project Name')
+        f.write(README)
 
     with open(os.path.join(path, 'DOCKERFILE'), 'a') as f:
         f.write(DOCKERFILE)
