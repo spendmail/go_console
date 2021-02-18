@@ -17,7 +17,7 @@ def main():
 
 @main.command()
 @click.argument('path', required=False)
-def make_dirs(path):
+def make_project(path):
     """Makes go project standard dirs"""
 
     if path is None:
