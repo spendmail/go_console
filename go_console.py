@@ -24,7 +24,10 @@ RUN go install -v ./...
 
 CMD ["app"]'''
 
-GO_FILES = {'README.md': README, 'DOCKERFILE': README, '.env': ''}
+ENV = '''#DATABASE_URL=pgsql://user:pass@localhost:5432/db
+'''
+
+GO_FILES = {'README.md': README, 'DOCKERFILE': README, '.env': ENV}
 
 
 @click.group()
