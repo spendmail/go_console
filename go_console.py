@@ -56,6 +56,11 @@ def make_project(path):
         with open(dockerfile_path, 'a') as f:
             f.write(DOCKERFILE)
 
+    env_path = os.path.join(path, '.env')
+    if not os.path.exists(env_path):
+        with open(env_path, 'a') as f:
+            f.write('')
+
 
 if __name__ == '__main__':
     args = sys.argv
