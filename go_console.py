@@ -74,6 +74,8 @@ def make_tests(path):
         return
 
     for file in glob.glob(services_path + '/*.go'):
+        if file.endswith('_test.go'):
+            continue
         file = pathlib.Path(file)
         test_filename = file.stem + '_test' + file.suffix
         test_abs_name = os.path.join(services_path, test_filename)
