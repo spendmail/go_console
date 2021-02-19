@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import glob
+import ntpath
 import os
 import pathlib
 import sys
@@ -24,7 +26,8 @@ RUN go install -v ./...
 
 CMD ["app"]'''
 
-ENV = '''#DATABASE_URL=pgsql://user:pass@localhost:5432/db
+ENV = '''APP_ENV=prod
+#DATABASE_URL=pgsql://user:pass@localhost:5432/db
 '''
 
 GO_FILES = {'README.md': README, 'DOCKERFILE': README, '.env': ENV}
@@ -56,6 +59,27 @@ def make_project(path):
         if not os.path.exists(readme_path):
             with open(readme_path, 'a') as f:
                 f.write(GO_FILES[go_file])
+
+
+@main.command()
+@click.argument('path', required=False)
+def make_tests(path):
+    """Creates go project test files"""
+
+    if path is None:
+        path = os.getcwd()
+
+    services_path = os.path.join(path, 'internal/domain/services')
+    if not os.path.exists(services_path):
+        return
+
+    for file in glob.glob(services_path + '/*.go'):
+        file = pathlib.Path(file)
+        test_filename = file.stem + '_test' + file.suffix
+        test_abs_name = os.path.join(services_path, test_filename)
+        if not os.path.exists(test_abs_name):
+            with open(test_abs_name, 'a') as f:
+                f.write('')
 
 
 if __name__ == '__main__':
